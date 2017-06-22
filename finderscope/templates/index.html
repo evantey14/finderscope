@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <title>flask+d3 Hello World</title>
+
+    <script src="http://d3js.org/d3.v2.js"></script>
+    <link href="/static/css/plot.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <h1>edX data using d3.js &amp; Flask</h1>
+
+    <div id="info">
+        <div id="point-info">
+            Click on a point.
+        </div>
+    </div>
+
+    <div id="plot">
+    </div>
+    
+        <div>
+        {#
+        Course: {{ course.id, course.title }}
+        {% for user in course.users %}
+            {{ user.nevents,user.sum_dt }}
+        {% endfor %}
+        #}
+    </div>
+    <script type ="text/javascript" src ="/static/js/plot.js"></script>
+    <script>
+    d3.json("/data/1", callback);
+    </script>
+</body>
+</html>

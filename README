@@ -1,0 +1,40 @@
+README:
+
+1. I haven't included a requirement file, since you already have flask. I'm using
+pandas apart from flask related modules. In case of issues, please refer to the list
+here:
+https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+
+2. I assuemd that the virtualenv directory "env" is at the same level as the xboard
+root directory:
+ /xboard
+   /data
+   /app
+     /template
+     /static
+     ...
+   ...
+ /env
+...
+
+3. How to run this: First run the csv_to_db.py to create the database, app.db. Then
+run run.py (see the result at localhost:5000)
+
+4. I haven't included any database migrate/upgrade/downgrade scripts, since for now
+I'm just deleting the databases and re-running the csv_to_db script
+
+5. I wrote the User class (incomplete -- many more fields need to be added), and a
+parent "Course" class. I think we need to add a class to store the timeseries info. We
+might need other classes (problems, chapters?) -- we'll see
+
+6. For now, I have been loading only the "fake_di_data_person_course.csv" into the
+database. We need to expand the csv_to_db script to load the other csv files into app.db
+
+7. The "/data" route in views.py looks terrible -- loading x/y arrays via different option
+choices should be handled via a function. But perhaps we should introduce POST request
+for that anyway and perhaps we'll re-write this section  
+
+8. I want to use Bootstrap down the line to make the frontend look a bit nicer
+
+
+
