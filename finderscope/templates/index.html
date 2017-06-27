@@ -1,38 +1,58 @@
 <!DOCTYPE HTML>
-<html>
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% set active_page = "menu1" %}
 
-    <title>flask+d3 Hello World</title>
+{% block content %}
 
-    <script src="http://d3js.org/d3.v2.js"></script>
-    <link href="/static/css/plot.css" rel="stylesheet">
+<h2>edX data</h2>
 
-</head>
-<body>
 
-    <h1>edX data using d3.js &amp; Flask</h1>
+<div class="col-lg-6">
+    <table class="table table-hover">
+        <tr>
+            <td>
+                Choose X-axis:
+            <select name = "course_id" class="form-control">
+                <option value=1> ndays_act </option>
+                <option value=2> nplay_video </option>
+                <option value=3> nevents </option>
+                <option value=4> nchapters </option>
+                <option value=5> nprogcheck </option>
+                <option value=6> sum_dt </option>
+            </select>
+            </td>
+        <!-- </tr>
+        <tr> -->
+            <td>
+                Choose Y-axis:
+            <select name = "course_id" class="form-control">
+                <option value=1> ndays_act </option>
+                <option value=2> nplay_video </option>
+                <option value=3> nevents </option>
+                <option value=4> nchapters </option>
+                <option value=5> nprogcheck </option>
+                <option value=6> sum_dt </option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
 
-    <div id="info">
-        <div id="point-info">
-            Click on a point.
-        </div>
+<div id="info"  class="col-lg-6">
+    <div id="point-info">
+        <p>Click on a point.</p>
     </div>
+</div>
 
-    <div id="plot">
-    </div>
+<div id="plot">
+</div>
+
     
-        <div>
-        {#
-        Course: {{ course.id, course.title }}
-        {% for user in course.users %}
-            {{ user.nevents,user.sum_dt }}
-        {% endfor %}
-        #}
-    </div>
-    <script type ="text/javascript" src ="/static/js/plot.js"></script>
-    <script>
+
+<script type ="text/javascript" src ="/static/custom_js/plot.js"></script>
+<script>
     d3.json("/data/1", callback);
-    </script>
-</body>
-</html>
+</script>
+
+{% endblock %}
