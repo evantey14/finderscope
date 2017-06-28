@@ -26,21 +26,11 @@ def index():
     return render_template("index.html",
                            course = course)
 
-@app.route("/data")
-@app.route("/data/<int:nopt>")
-def data(nopt):
-    """
-    On request, this returns a list of arrays prepared from User class.
-
-    :param nopt:
-        Since I didn't manage to figure out how to make the POST request yet,
-        I thought of nopt as a combination of x and y variable, that can be
-        stored in a dictionary. 
-
-    :returns data:
-        A JSON string of ``count`` data points.
-
-    """
+@app.route("/data/", methods=['POST'])
+def data():
+    # request.form['x'] wasn't working...
+    data = json.loads(request.get_data())
+    
     course = Course.query.filter_by(id=1).first()
     users = course.users
     ndata = users.count()    
@@ -51,22 +41,15 @@ def data(nopt):
 
     #Once we have more options, this should go into a function that will return
     #the desired arrays
-    if nopt == 1:
-        count = 0
-        for user in users:
-            if user.nevents != None and user.sum_dt != None:
-                x.append(user.nevents)
-                y.append(round(user.sum_dt,1))
-                _id.append(user.username)
-                count += 1
-            else:
-                pass
-    """            
-    elif nopt == 2:
-        x = users.nvideo
-        y = sum_dt
-    """
-
+    count = 0
+    for user in users:
+        if user.__dict__[data['x']] != None and user.__dict__[data['y']] != None:
+            x.append(user.__dict__[data['x']])
+            y.append(round(user.__dict__[data['y']],1))
+            _id.append(user.username)
+            count += 1
+        else:
+            pass
     
     #x = 10 * np.random.rand(ndata) - 5
     #y = 0.5 * x + 0.5 * np.random.randn(ndata)

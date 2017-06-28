@@ -1,4 +1,3 @@
-        //d3.json("/data", callback);
         // Set up the plot window.
         var margin = 80;
         var w = 700 - 2 * margin, h = 500 - 2 * margin;
@@ -33,7 +32,10 @@
 
         // Load the data.
         var callback = function (data) {
-            // Rescale the axes.
+	    svg.selectAll("circle").remove()
+			    
+	    var path = svg.selectAll("circle").data(data);
+	    // Rescale the axes.
             xscale.domain([d3.min(data, function (d) { return d.x; }) - 0.05,
                            d3.max(data, function (d) { return d.x; }) + 0.05]);
             yscale.domain([d3.min(data, function (d) { return d.y; }) - 0.05,
@@ -44,7 +46,7 @@
             svg.select(".y.axis").call(yaxis);
 
             // Insert the data points.
-            svg.selectAll("circle").data(data).enter()
+            path.enter()
                 .append("circle")
                     .attr("id", function (d) { return d._id; })
                     .attr("cx", function (d) { return xscale(d.x); })
@@ -54,4 +56,3 @@
                     .on("mousedown", show_info);
         };
 
-        //d3.json("/data", callback);

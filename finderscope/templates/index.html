@@ -9,34 +9,38 @@
 
 
 <div class="col-lg-6">
-    <table class="table table-hover">
-        <tr>
-            <td>
-                Choose X-axis:
-            <select name = "course_id" class="form-control">
-                <option value=1> ndays_act </option>
-                <option value=2> nplay_video </option>
-                <option value=3> nevents </option>
-                <option value=4> nchapters </option>
-                <option value=5> nprogcheck </option>
-                <option value=6> sum_dt </option>
-            </select>
-            </td>
-        <!-- </tr>
-        <tr> -->
-            <td>
-                Choose Y-axis:
-            <select name = "course_id" class="form-control">
-                <option value=1> ndays_act </option>
-                <option value=2> nplay_video </option>
-                <option value=3> nevents </option>
-                <option value=4> nchapters </option>
-                <option value=5> nprogcheck </option>
-                <option value=6> sum_dt </option>
-                </select>
-            </td>
-        </tr>
-    </table>
+    <div class="row">
+        <table class="table table-hover">
+            <tr>
+                <td>
+                    Choose X-axis:
+                    <select name = "x-axis" class="form-control">
+                        <option value="ndays_act"> ndays_act </option>
+                        <option value="nplay_video"> nplay_video </option>
+                        <option value="nevents"> nevents </option>
+                        <option value="nchapters"> nchapters </option>
+                        <option value="nprogcheck"> nprogcheck </option>
+                        <option value="sum_dt"> sum_dt </option>
+                    </select>
+                </td>
+                <td>
+                    Choose Y-axis:
+                    <select name = "y-axis" class="form-control">
+                        <option value="ndays_act"> ndays_act </option>
+                        <option value="nplay_video"> nplay_video </option>
+                        <option value="nevents"> nevents </option>
+                        <option value="nchapters"> nchapters </option>
+                        <option value="nprogcheck"> nprogcheck </option>
+                        <option value="sum_dt"> sum_dt </option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="row">
+        <div id="plot">
+        </div>
+    </div>
 </div>
 
 <div id="info"  class="col-lg-6">
@@ -44,14 +48,29 @@
         <p>Click on a point.</p>
     </div>
 </div>
-
-<div id="plot">
-</div>
     
 
 <script type ="text/javascript" src ="/static/js/plot.js"></script>
 <script>
-    d3.json("/data/1", callback);
+$(document).ready(function(){
+    $("select").on("change", function(){		
+        console.log("{x:"+$("select[name=x-axis]")[0].value+",y:"+$("select[name=y-axis]")[0].value+"}"); 
+	var data = {
+	    x: $("select[name=x-axis]")[0].value,
+	    y: $("select[name=y-axis]")[0].value
+	};
+	$.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/data/",
+            dataType: "json",
+            async: true,
+            data: JSON.stringify(data),
+            success: callback, //function (res) { console.log(res); },
+            error: function (error) { console.log(error); }	
+	});
+    });
+});
 </script>
 
 {% endblock %}
