@@ -20,16 +20,16 @@ class User(db.Model):
     def __init__(self,user_id,username,ndays_act,nevents,nplay_video,nchapters,nprogcheck,nproblem_check,nshow_answer,nvideo,nvideos_unique_viewed,nvideos_total_watched,sum_dt,course_id):
         self.user_id = user_id 
         self.username = username
-	self.ndays_act = ndays_act
+        self.ndays_act = ndays_act
         self.nevents = nevents
-	self.nplay_video = nplay_video
-	self.nchapters = nchapters
-	self.nprogcheck = nprogcheck
-	self.nproblem_check = nproblem_check
-	self.nshow_answer = nshow_answer
+        self.nplay_video = nplay_video
+        self.nchapters = nchapters
+        self.nprogcheck = nprogcheck
+        self.nproblem_check = nproblem_check
+        self.nshow_answer = nshow_answer
         self.nvideo = nvideo
-	self.nvideos_unique_viewed = nvideos_unique_viewed
-	self.nvideos_total_watched = nvideos_total_watched
+        self.nvideos_unique_viewed = nvideos_unique_viewed
+        self.nvideos_total_watched = nvideos_total_watched
         self.sum_dt = sum_dt
         self.course_id = course_id
         

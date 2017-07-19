@@ -21,9 +21,9 @@ class UserDay(db.Model):
 ):
         self.username = username
         self.date = date
-	self.nevents = nevents
+        self.nevents = nevents
         self.nvideo = nvideo
        	self.nvideos_watched_sec = nvideos_watched_sec
-	self.nproblems_answered = nproblems_answered
-	self.nproblems_attempted = nproblems_attempted
+        self.nproblems_answered = nproblems_answered
+        self.nproblems_attempted = nproblems_attempted
         self.sum_dt = sum_dt

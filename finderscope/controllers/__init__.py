@@ -28,8 +28,7 @@ def index():
 
 @app.route("/data/", methods=['POST'])
 def data():
-    # request.form['x'] wasn't working...
-    data = json.loads(request.get_data())
+    data = json.loads(request.data)
     
     course = Course.query.filter_by(id=1).first()
     users = course.users
@@ -58,3 +57,14 @@ def data():
     return json.dumps([{"_id": _id[i], "x": x[i], "y": y[i], "area": A[i],
         "color": c[i]}
         for i in range(count)])
+
+@app.route("/getpoint/", methods=['POST'])
+def getpoint():
+    point = json.loads(request.data)
+    user = User.query.filter(User.username == point['_id']).first()
+    if user is None:
+        return json.dumps({'status':'failed'})
+    else:
+        user_dict = user.__dict__
+        user_dict.pop('_sa_instance_state', None) # sqlalchemy instance cannot be serialized so remove it
+        return json.dumps({'status':'success', 'user':user_dict})
