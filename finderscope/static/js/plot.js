@@ -35,11 +35,22 @@ var show_info = function (d) {
         success: function (res) { 
             if (res.status === "success") {
                 var user = res.user;
-                var info = "";
+                var table = document.createElement('table');
                 for(key in user) {
-                    info += key + ": " + user[key];
+                    var tr_user = document.createElement('tr');
+
+                    var td_key = document.createElement('td');
+                    var td_value = document.createElement('td');
+
+                    td_key.appendChild(document.createTextNode(key));
+                    td_value.appendChild(document.createTextNode(user[key]));
+                    
+                    tr_user.appendChild(td_key);
+                    tr_user.appendChild(td_value);
+
+                    table.appendChild(tr_user);
                 }
-                d3.select("#point-info").text(info);
+                document.getElementById('point-info').appendChild(table);
             }
         },
         error: function (error) { console.log(error); }	
