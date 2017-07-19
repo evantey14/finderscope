@@ -15,50 +15,41 @@ def internal_error(error):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    """
-    When you request the root path, you'll get the index.html template.
-    """
+    course = Course.query.filter_by(id=1).first()
+    return render_template("index.html", course = course)
 
-    #Get the course and user info and pass on to index
+@app.route("/plot/person_course", methods=['POST'])
+def plot_person_course():
+    req_data = json.loads(request.data)
+    x_axis = req_data['x']
+    y_axis = req_data['y']
+
     course = Course.query.filter_by(id=1).first()
     users = course.users
+    count = users.count()
 
-    return render_template("index.html",
-                           course = course)
-
-@app.route("/data/", methods=['POST'])
-def data():
-    data = json.loads(request.data)
-    
-    course = Course.query.filter_by(id=1).first()
-    users = course.users
-    ndata = users.count()    
-
+    _id = []
     x = []
     y = []
-    _id = []
+    area = 10. ** np.random.rand(count)
+    color = np.random.rand(count)
 
-    #Once we have more options, this should go into a function that will return
-    #the desired arrays
-    count = 0
     for user in users:
-        if user.__dict__[data['x']] != None and user.__dict__[data['y']] != None:
-            x.append(user.__dict__[data['x']])
-            y.append(round(user.__dict__[data['y']],1))
-            _id.append(user.username)
-            count += 1
-        else:
-            pass
-    
-    #x = 10 * np.random.rand(ndata) - 5
-    #y = 0.5 * x + 0.5 * np.random.randn(ndata)
-    A = 10. ** np.random.rand(count)
-    c = np.random.rand(count)
-    return json.dumps([{"_id": _id[i], "x": x[i], "y": y[i], "area": A[i],
-        "color": c[i]}
-        for i in range(count)])
+        user_dict = user.__dict__
+        print(user_dict)
+        if user_dict[x_axis] is not None and user_dict[y_axis] is not None:
+            _id.append(user_dict['username'])
+            x.append(user_dict[x_axis])
+            y.append(round(user_dict[y_axis],1))
 
-@app.route("/getpoint/", methods=['POST'])
+    return json.dumps([{
+        "_id": _id[i], 
+        "x": x[i], 
+        "y": y[i], 
+        "area": area[i], 
+        "color": color[i]} for i in range(len(x))])
+
+@app.route("/getpoint", methods=['POST'])
 def getpoint():
     point = json.loads(request.data)
     user = User.query.filter(User.username == point['_id']).first()

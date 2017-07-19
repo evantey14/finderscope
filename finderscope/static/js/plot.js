@@ -28,7 +28,7 @@ var show_info = function (d) {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/getpoint/",
+        url: "/getpoint",
         dataType: "json",
         async: true,
         data: JSON.stringify(d),
